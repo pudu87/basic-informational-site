@@ -1,5 +1,6 @@
 const http = require('http');
 const fs = require('fs');
+const port = 8080;
 
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/html');
@@ -8,19 +9,23 @@ const server = http.createServer((req, res) => {
   switch(req.url) {
     case '/':
       path += 'index.html';
+      res.statusCode = 200;
       break;
     case '/about':
       path += 'about.html';
+      res.statusCode = 200;
       break;
     case '/contact-me':
       path += '/contact-me.html';
+      res.statusCode = 200;
       break;
     default:
       path += '/404.html';
+      res.statusCode = 404;
     break;
   }
 
-  const index = fs.readFile(path, (err, data) => {
+  fs.readFile(path, (err, data) => {
     if (err) {
       console.log(err);
       res.end();
@@ -30,6 +35,6 @@ const server = http.createServer((req, res) => {
   })
 });
 
-server.listen(8080, 'localhost', () => {
-  console.log('server running')
+server.listen(port, 'localhost', () => {
+  console.log(`server running at ${port}`)
 })
